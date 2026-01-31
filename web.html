@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHIYON E-commerce - Premium Online Shopping</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="web.css">
+</head>
+<body>
+    <div class="auth-modal" id="login-modal">
+        <div class="auth-content">
+            <div class="auth-header">
+                <h2 data-i18n="auth.welcomeBack">Welcome Back!</h2>
+                <button class="close-auth" onclick="closeAuth('login')">×</button>
+            </div>
+            <div class="auth-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email" data-i18n="auth.email">Email Address</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" data-i18n-placeholder="auth.enterEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" data-i18n="auth.password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" data-i18n-placeholder="auth.enterPassword" >
+                    </div>
+                    <button type="submit" class="auth-btn" data-i18n="auth.loginBtn">Login to GHIYON</button>
+                </form>
+                <div class="auth-switch">
+                    <span data-i18n="auth.noAccount">Don't have an account?</span> <a onclick="showSignup()" data-i18n="auth.signupHere">Sign up here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="auth-modal" id="signup-modal">
+        <div class="auth-content">
+            <div class="auth-header">
+                <h2 data-i18n="auth.joinFamily">Join GHIYON Family!</h2>
+                <button class="close-auth" onclick="closeAuth('signup')">×</button>
+            </div>
+            <div class="auth-body">
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="signup-name" data-i18n="auth.fullName">Full Name</label>
+                        <input type="text" id="signup-name" placeholder="Enter your full name" data-i18n-placeholder="auth.enterFullName">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email" data-i18n="auth.email">Email Address</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email" data-i18n-placeholder="auth.enterEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password" data-i18n="auth.password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password" data-i18n-placeholder="auth.createPassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-phone" data-i18n="auth.phone">Phone Number</label>
+                        <input type="tel" id="signup-phone" placeholder="Enter your phone number" data-i18n-placeholder="auth.enterPhone">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-avatar">Profile Photo (optional)</label>
+                        <input type="file" id="signup-avatar" accept="image/*">
+                        <div class="field-hint" style="font-size:0.9rem;color:#666;margin-top:6px;">PNG/JPG, up to ~1MB recommended.</div>
+                    </div>
+                    <button type="submit" class="auth-btn" data-i18n="auth.createAccount">Create Account</button>
+                </form>
+                <div class="auth-switch">
+                    <span data-i18n="auth.haveAccount">Already have an account?</span> <a onclick="showLogin()" data-i18n="auth.loginHere">Login here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="top-bar">
+        <div class="container">
+           
+            
+            
+            <div class="contact-info">
+                <span><i class="fas fa-phone"></i> +251920897654</span>
+                <span><i class="fas fa-envelope"></i> kelsh@ghiyon.com</span>
+            </div>
+        
+            <div class="top-bar-links">
+                <a href="#assistant"><i class="fas fa-question-circle"></i> <span data-i18n="top.helpCenter">Help Center</span></a>
+                <a href="#" onclick="openMyOrders(event)"><i class="fas fa-truck"></i> <span data-i18n="top.trackOrder">Track Order</span></a>
+            </div>
+        </div>
+    </div>
+    <header class="header">
+        <div class="container">
+            <div class="main-header">
+                <div class="header-content">
+                    <button class="mobile-nav-toggle" aria-controls="site-nav" aria-expanded="false" onclick="toggleMobileNav()" title="Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="#" class="logo">
+                        <i class="fas fa-gem"></i>
+                        <span class="logo-text">GHIYON</span>
+                    </a>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search for products, brands and more..." data-i18n-placeholder="search.placeholder" id="search-input">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="header-actions">
+                        <div class="user-profile">
+                            <a href="#" class="action-btn" onclick="toggleUserMenu(event)">
+                                <img id="user-avatar" class="user-avatar" alt="User avatar" style="display:none;" />
+                                <i id="user-icon" class="fas fa-user-circle"></i>
+                                <span id="user-text" data-i18n="menu.login">Login</span>
+                            </a>
+                            <div class="user-menu" id="user-menu">
+                                <a href="#" onclick="showLogin()"><i class="fas fa-sign-in-alt"></i> <span data-i18n="menu.login">Login</span></a>
+                                <a href="#" onclick="showSignup()"><i class="fas fa-user-plus"></i> <span data-i18n="menu.signup">Sign Up</span></a>
+                                <a href="#"><i class="fas fa-heart"></i> <span data-i18n="menu.wishlist">Wishlist</span></a>
+                                <!-- <a href="#"><i class="fas fa-cog"></i> <span data-i18n="menu.settings">Settings</span></a> -->
+                                <div class="menu-item menu-language" role="group" aria-label="Language preference">
+                                    <i class="fas fa-language" aria-hidden="true"></i>
+                                    <span class="menu-label" data-i18n="menu.language">Language</span>
+                                    <select id="language-select" class="menu-select" aria-label="Choose language">
+                                        <option value="en">English</option>
+                                        <option value="am">Amharic</option>
+                                    </select>
+                                </div>
+                                <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span data-i18n="menu.logout">LogOut</span></a>
+                            </div>
+                        </div>
+                        <a href="#" class="action-btn wishlist-btn" onclick="openWishlist(event)">
+                            <i class="fas fa-heart"></i>
+                            <span data-i18n="menu.wishlist">Wishlist</span>
+                            <span class="wishlist-count" id="wishlist-count">0</span>
+                        </a>
+                        <a href="#" class="action-btn cart-btn" onclick="toggleCart()">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span data-i18n="menu.cart">Cart</span>
+                            <span class="cart-count" id="cart-count">0</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-menu" id="site-nav">
+            <div class="container">
+                <ul class="nav-links">
+                    <li><a href="#" class="active" data-i18n="nav.home">Home</a></li>
+                    <li><a href="#products" data-i18n="nav.products">Products</a></li>
+                    
+                    <li class="has-submenu">
+                        <a href="#categories">Categories</a>
+                        <button class="submenu-toggle" aria-controls="submenu-categories" aria-expanded="false" title="Expand categories">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <ul class="submenu" id="submenu-categories">
+                            <li><a href="#categories">All Categories</a></li>
+                            <li><a href="#products">Electronics</a></li>
+                            <li><a href="#products">Fashion</a></li>
+                            <li><a href="#products">Home &amp; Kitchen</a></li>
+                            <li><a href="#products">Sports &amp; Fitness</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#services" data-i18n="nav.services">Services</a></li>
+                    <li><a href="#contact-us" data-i18n="nav.contact">Contact</a></li>
+                    <li><a href="#about" data-i18n="nav.about">About Us</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="mobile-nav-overlay" id="mobile-nav-overlay" onclick="closeMobileNav()"></div>
+    </header>
+<div class="dashboard-overlay" id="dashboard-overlay" onclick="closeDashboard()"></div>
+
+
+<div class="dashboard-sidebar" id="dashboard-sidebar">
+    <div class="dashboard-header">
+        <h2><i class="fas fa-chart-line"></i> <span data-i18n="dashboard.title">GHIYON Dashboard</span></h2>
+        <p>Complete Website Analytics & Controls</p>
+    </div>
+    
+    <div class="cart-modal" id="wishlist-modal">
+        <div class="cart-header">
+            <h2><i class="fas fa-heart"></i> <span>Wishlist</span></h2>
+            <button class="close-cart" onclick="closeWishlist()">×</button>
+        </div>
+        <div class="cart-items" id="wishlist-items"></div>
+    </div>
+
+    <nav class="dashboard-nav">
+        <ul>
+            <li><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard Overview</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Website Settings</a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> Sales Analytics</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> User Management</a></li>
+            <li><a href="#"><i class="fas fa-shopping-cart"></i> Order Management</a></li>
+            <li><a href="#"><i class="fas fa-box"></i> Inventory</a></li>
+            <li><a href="#"><i class="fas fa-tags"></i> Discount & Promotions</a></li>
+            <li><a href="#"><i class="fas fa-envelope"></i> Email Campaigns</a></li>
+            <li><a href="#"><i class="fas fa-file-invoice"></i> Reports</a></li>
+            <li><a href="#"><i class="fas fa-shield-alt"></i> Security Settings</a></li>
+            <li><a href="#"><i class="fas fa-headset"></i> Support Center</a></li>
+            <li><a href="#"><i class="fas fa-database"></i> Data Backup</a></li>
+        </ul>
+    </nav>
+    
+    <div class="dashboard-stats-sidebar">
+        <div class="stat-item">
+            <span class="stat-label">Online Users:</span>
+            <span class="stat-value">1,234</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Today's Orders:</span>
+            <span class="stat-value">89</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Revenue Today:</span>
+            <span class="stat-value">$12,456</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">New Customers:</span>
+            <span class="stat-value">45</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Stock Alert:</span>
+            <span class="stat-value">12 items</span>
+        </div>
+    </div>
+    
+    <div style="padding: 20px; text-align: center;">
+        <button class="btn" style="background: #27ae60; color: white; width: 100%;" onclick="showNotification('Dashboard exported successfully!', 'success')">
+            <i class="fas fa-download"></i> Export Report
+        </button>
+    </div>
+</div>
+
+
+
+    <section class="hero-slider">
+        <div class="slider-container">
+        <div class="slide active">
+    <img src="assets/image/Sealing the Deal_ The Future of Mergers & Acquisitions.jpg" alt="Welcome Banner">
+    <div class="slide-content">
+            <h1 class="slide-title"><span data-i18n="hero1.title">Welcome to GIhON</span> <span class="highlight" data-i18n="hero1.highlight">E-commerce</span></h1>
+            <p class="slide-subtitle" data-i18n="hero1.subtitle">Experience premium shopping with exclusive deals, fast delivery, and exceptional customer service. Your satisfaction is our priority!</p>
+            <div class="slide-buttons">
+                <a href="#about" class="btn slide-btn" data-i18n="hero1.learnMore">Learn More</a>
+                <a href="#products" class="btn slide-btn-outline" data-i18n="hero1.shopNow">Shop Now</a>
+            </div>
+    </div>
+</div>
+<div class="slide">
+                    <img src="assets/image/10001 (1).jpg ">
+                    <div class="slide-content">
+                        <h1 class="slide-title"><span data-i18n="hero2.title">Latest</span> <span class="highlight" data-i18n="hero2.highlight">Tech Gadgets</span> 2024</h1>
+                        <p class="slide-subtitle" data-i18n="hero2.subtitle">Cutting-edge electronics with extended warranty, 24/7 support, and same-day delivery.</p>
+                        <div class="slide-buttons">
+                            <a href="#products" class="btn slide-btn" data-i18n="hero2.exploreTech">Explore Tech</a>
+                            <a href="#categories" class="btn slide-btn-outline" data-i18n="hero2.browseCategories">Browse Categories</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="assets/image/Start Your Own Amazon! Multi-Vendor Marketplace Setup for Beginners.jpg" alt="Marketplace">
+                    <div class="slide-content">
+                            <h1 class="slide-title"><span data-i18n="hero3.title">Multi-Vendor</span> <span class="highlight" data-i18n="hero3.highlight">Marketplace</span></h1>
+                            <p class="slide-subtitle" data-i18n="hero3.subtitle">Shop from thousands of verified sellers with secure payment and buyer protection.</p>
+                        <div class="slide-buttons">
+                                <a href="#categories" class="btn slide-btn" data-i18n="hero3.browseStores">Browse Stores</a>
+                                <a href="#services" class="btn slide-btn-outline" data-i18n="hero3.becomeSeller">Become Seller</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2070&auto=format&fit=crop" alt="Luxury Watch">
+                    <div class="slide-content">
+                            <h1 class="slide-title"><span data-i18n="hero4.title">Luxury</span> <span class="highlight" data-i18n="hero4.highlight">Accessories</span></h1>
+                            <p class="slide-subtitle" data-i18n="hero4.subtitle">Premium watches, jewelry, and accessories for the discerning modern buyer.</p>
+                        <div class="slide-buttons">
+                                <a href="#products" class="btn slide-btn" data-i18n="hero4.viewCollection">View Collection</a>
+                                <a href="#categories" class="btn slide-btn-outline" data-i18n="hero4.shopAccessories">Shop Accessories</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop" alt="Fashion Shopping">
+                    <div class="slide-content">
+                            <h1 class="slide-title"><span data-i18n="hero5.title">Fashion &amp;</span> <span class="highlight" data-i18n="hero5.highlight">Lifestyle</span></h1>
+                            <p class="slide-subtitle" data-i18n="hero5.subtitle">Trendy collections with free shipping, easy returns, and style consultation.</p>
+                        <div class="slide-buttons">
+                                <a href="#products" class="btn slide-btn" data-i18n="hero5.shopFashion">Shop Fashion</a>
+                                <a href="#services" class="btn slide-btn-outline" data-i18n="hero5.styleGuide">Style Guide</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="slider-btn prev" onclick="prevSlide()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-btn next" onclick="nextSlide()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="slider-control pause-btn" onclick="toggleAutoSlide()">
+                <i class="fas fa-pause" id="pauseIcon"></i>
+            </button>
+            <div class="slide-indicators">
+                <span class="indicator active" data-index="0"></span>
+                <span class="indicator" data-index="1"></span>
+                <span class="indicator" data-index="2"></span>
+                <span class="indicator" data-index="3"></span>
+                <span class="indicator" data-index="4"></span>
+            </div>
+        </div>
+    </section>
+    <section class="dashboard" id="dashboard">
+        <div class="container">
+            <h2 class="section-title" data-i18n="dashboard.title">GHIYON Dashboard</h2>
+            <p class="section-subtitle" data-i18n="dashboard.subtitle">Track your shopping experience and discover personalized recommendations</p>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 data-i18n="dash.totalProducts">Total Products</h3>
+                        <span class="stat-number" id="total-products">5000+</span>
+                        <p class="stat-desc" data-i18n="dash.totalProductsDesc">Premium quality items</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 data-i18n="dash.activeCustomers">Active Customers</h3>
+                        <span class="stat-number" id="active-customers">100K+</span>
+                        <p class="stat-desc" data-i18n="dash.activeCustomersDesc">Happy shoppers worldwide</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 data-i18n="dash.ordersDelivered">Orders Delivered</h3>
+                        <span class="stat-number" id="orders-delivered">50K+</span>
+                        <p class="stat-desc" data-i18n="dash.ordersDeliveredDesc">On-time delivery guarantee</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 data-i18n="dash.customerRating">Customer Rating</h3>
+                        <span class="stat-number" id="customer-rating">4.8/5</span>
+                        <p class="stat-desc" data-i18n="dash.customerRatingDesc">Based on 10K+ reviews</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-features">
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3 data-i18n="dash.fastDelivery">Fast Delivery</h3>
+                    <p data-i18n="dash.fastDeliveryDesc">Same-day delivery in major cities. Express shipping available worldwide.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3 data-i18n="dash.securePayment">Secure Payment</h3>
+                    <p data-i18n="dash.securePaymentDesc">Bank-level security with 256-bit SSL encryption for all transactions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-headset"></i>
+                    <h3 data-i18n="dash.support247">24/7 Support</h3>
+                    <p data-i18n="dash.support247Desc">Round-the-clock customer service via chat, phone, and email.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-undo"></i>
+                    <h3 data-i18n="dash.easyReturns">Easy Returns</h3>
+                    <p data-i18n="dash.easyReturnsDesc">30-day hassle-free return policy with instant refunds.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+       <div class="container">
+        <h2 class="section-title" data-i18n="cat.title">Shop by Category</h2>
+        <div class="categories" id="categories">
+            <div class="category-card">
+                <img src="assets/Products/download Electronics.jpg" alt="Electronics">
+                <div class="category-info">
+                    <h3 data-i18n="cat.electronics">Electronics</h3>
+                    <p data-i18n="cat.electronicsDesc">Latest gadgets, smartphones, laptops &amp; accessories</p>
+                    <button class="btn" onclick="filterByCategory('electronics')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/gaming.jpg" alt="Electronics">
+                <div class="category-info">
+                    <h3 data-i18n="cat.gaming">Gaming</h3>
+                    <p data-i18n="cat.gamingDesc">Gaming consoles, PC components &amp; accessories</p>
+                    <button class="btn" onclick="filterByCategory('electronics')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/kichen.jpg" alt="Fashion">
+                <div class="category-info">
+                    <h3 data-i18n="cat.fashion">Fashion</h3>
+                    <p data-i18n="cat.fashionDesc">Trendy clothing, shoes, watches &amp; accessories</p>
+                    <button class="btn" onclick="filterByCategory('fashion')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/watches.jpg" alt="Fashion">
+                <div class="category-info">
+                    <h3 data-i18n="cat.accessories">Accessories</h3>
+                    <p data-i18n="cat.accessoriesDesc">Watches, jewelry, bags &amp; fashion accessories</p>
+                    <button class="btn" onclick="filterByCategory('fashion')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/kichen.jpg" alt="Home">
+                <div class="category-info">
+                    <h3 data-i18n="cat.homeKitchen">Home &amp; Kitchen</h3>
+                    <p data-i18n="cat.homeKitchenDesc">Furniture, appliances, decor &amp; kitchen essentials</p>
+                    <button class="btn" onclick="filterByCategory('home')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/decorative.jpg" alt="Furniture">
+                <div class="category-info">
+                    <h3 data-i18n="cat.furniture">Furniture</h3>
+                    <p data-i18n="cat.furnitureDesc">Modern furniture for home and office</p>
+                    <button class="btn" onclick="filterByCategory('home')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/photo_12_2026-01-02_01-11-48.jpg" alt="Kitchen">
+                <div class="category-info">
+                    <h3 data-i18n="cat.kitchenware">Kitchenware</h3>
+                    <p data-i18n="cat.kitchenwareDesc">Cookware, utensils &amp; kitchen appliances</p>
+                    <button class="btn" onclick="filterByCategory('home')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/photo_15_2026-01-02_01-11-48.jpg" alt="Home Decor">
+                <div class="category-info">
+                    <h3 data-i18n="cat.homeDecor">Home Decor</h3>
+                    <p data-i18n="cat.homeDecorDesc">Lighting, artwork &amp; decorative items</p>
+                    <button class="btn" onclick="filterByCategory('home')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/queen-kitchen-tool-set.jpg" alt="Sports">
+                <div class="category-info">
+                    <h3 data-i18n="cat.sportsFitness">Sports &amp; Fitness</h3>
+                    <p data-i18n="cat.sportsFitnessDesc">Equipment, gear, apparel &amp; accessories</p>
+                    <button class="btn" onclick="filterByCategory('sports')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/photo_15_2026-01-02_01-14-04.jpg" alt="Fitness">
+                <div class="category-info">
+                    <h3 data-i18n="cat.fitnessEquipment">Fitness Equipment</h3>
+                    <p data-i18n="cat.fitnessEquipmentDesc">Home gym equipment &amp; workout gear</p>
+                    <button class="btn" onclick="filterByCategory('sports')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/photo_7_2026-01-02_01-11-48.jpg" alt="Outdoor">
+                <div class="category-info">
+                    <h3 data-i18n="cat.outdoorSports">Outdoor Sports</h3>
+                    <p data-i18n="cat.outdoorSportsDesc">Camping, hiking &amp; outdoor adventure gear</p>
+                    <button class="btn" onclick="filterByCategory('sports')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="assets/Products/photo_3_2026-01-02_01-11-48.jpg" alt="Team Sports">
+                <div class="category-info">
+                    <h3 data-i18n="cat.teamSports">Team Sports</h3>
+                    <p data-i18n="cat.teamSportsDesc">Soccer, basketball &amp; other team sports equipment</p>
+                    <button class="btn" onclick="filterByCategory('sports')" data-i18n="cat.shopNow">Shop Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h2 class="section-title" id="products" data-i18n="prod.title">Featured Products</h2>
+        <div class="filters">
+            <div class="filter-group">
+                <span data-i18n="prod.sortBy">Sort by:</span>
+                <select id="sort-by">
+                    <option value="featured" data-i18n="prod.sort.featured">Featured</option>
+                    <option value="price-low" data-i18n="prod.sort.priceLow">Price: Low to High</option>
+                    <option value="price-high" data-i18n="prod.sort.priceHigh">Price: High to Low</option>
+                    <option value="rating" data-i18n="prod.sort.rating">Top Rated</option>
+                    <option value="newest" data-i18n="prod.sort.newest">Newest First</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <span data-i18n="prod.category">Category:</span>
+                <select id="category-filter">
+                    <option value="all" data-i18n="prod.cat.all">All Categories</option>
+                    <option value="electronics" data-i18n="prod.cat.electronics">Electronics</option>
+                    <option value="fashion" data-i18n="prod.cat.fashion">Fashion</option>
+                    <option value="home" data-i18n="prod.cat.home">Home &amp; Kitchen</option>
+                    <option value="sports" data-i18n="prod.cat.sports">Sports &amp; Fitness</option>
+                </select>
+            </div>
+        </div>
+        <div class="products" id="products-grid">
+        </div>
+    </div>
+   
+
+    <div class="container" id="services">
+        <div class="services">
+            <div class="service-card">
+                <i class="fas fa-shipping-fast"></i>
+                <h3 data-i18n="svc.freeShipping">Free Shipping</h3>
+                <p data-i18n="svc.freeShippingDesc">On all orders over $50. Fast delivery guaranteed.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-undo-alt"></i>
+                <h3 data-i18n="svc.returns">30-Day Returns</h3>
+                <p data-i18n="svc.returnsDesc">Easy return policy with full refund within 30 days.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3 data-i18n="svc.securePayment">Secure Payment</h3>
+                <p data-i18n="svc.securePaymentDesc">100% secure transactions with SSL encryption.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-headset"></i>
+                <h3 data-i18n="svc.support">24/7 Support</h3>
+                <p data-i18n="svc.supportDesc">Round-the-clock customer service support.</p>
+            </div>
+        </div>
+    </div>
+   
+
+    <div class="cart-modal" id="orders-modal">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-bag"></i> <span data-i18n="orders.title">My Orders</span></h2>
+            <button class="close-cart" onclick="closeMyOrders()">×</button>
+        </div>
+        <div class="cart-items" id="orders-items"></div>
+    </div>
+
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-cart"></i> <span data-i18n="cart.title">Your Shopping Cart</span></h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-i18n="cart.total">Total:</span>
+                <span>$<span id="cart-total">0.00</span></span>
+            </div>
+            <button class="btn" style="width: 100%;" onclick="checkout()" data-i18n="cart.proceed">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div class="checkout-modal" id="checkout-modal" aria-hidden="true">
+        <div class="checkout-content" role="dialog" aria-modal="true" aria-label="Checkout">
+            <div class="checkout-header">
+                <h2 data-i18n="checkout.title">Checkout</h2>
+                <button class="close-checkout" type="button" onclick="closeCheckout()">×</button>
+            </div>
+
+            <form class="checkout-body" id="checkout-form">
+                <div class="checkout-grid">
+                    <section class="checkout-panel">
+                        <h3 class="checkout-section-title" data-i18n="checkout.deliveryInfo">DELIVERY INFORMATION</h3>
+
+                        <div class="checkout-row2">
+                            <input class="checkout-input" id="checkout-first-name" type="text" placeholder="First name" data-i18n-placeholder="checkout.firstName" required />
+                            <input class="checkout-input" id="checkout-last-name" type="text" placeholder="Last name" data-i18n-placeholder="checkout.lastName" required />
+                        </div>
+
+                        <input class="checkout-input" id="checkout-email" type="email" placeholder="Email address" data-i18n-placeholder="checkout.email" required />
+                        <input class="checkout-input" id="checkout-street" type="text" placeholder="Street" data-i18n-placeholder="checkout.street" required />
+
+                        <div class="checkout-row2">
+                            <input class="checkout-input" id="checkout-city" type="text" placeholder="City" data-i18n-placeholder="checkout.city" required />
+                            <input class="checkout-input" id="checkout-state" type="text" placeholder="State" data-i18n-placeholder="checkout.state" required />
+                        </div>
+
+                        <div class="checkout-row2">
+                            <input class="checkout-input" id="checkout-zip" type="text" placeholder="Zipcode" data-i18n-placeholder="checkout.zip" required />
+                            <input class="checkout-input" id="checkout-country" type="text" placeholder="Country" data-i18n-placeholder="checkout.country" required />
+                        </div>
+
+                        <input class="checkout-input" id="checkout-phone" type="tel" placeholder="Phone" data-i18n-placeholder="checkout.phone" required />
+                    </section>
+
+                    <aside class="checkout-panel">
+                        <h3 class="checkout-section-title" data-i18n="checkout.items">ITEMS</h3>
+                        <div class="checkout-items" id="checkout-items"></div>
+
+                        <h3 class="checkout-section-title" data-i18n="checkout.totals">CART TOTALS</h3>
+                        <div class="checkout-totals">
+                            <div class="checkout-totals-row">
+                                <span data-i18n="checkout.subtotal">Subtotal</span>
+                                <span>$<span id="checkout-subtotal">0.00</span></span>
+                            </div>
+                            <div class="checkout-totals-row">
+                                <span data-i18n="checkout.shippingFee">Shipping Fee</span>
+                                <span>$<span id="checkout-shipping">0.00</span></span>
+                            </div>
+                            <div class="checkout-totals-row checkout-totals-row--total">
+                                <span data-i18n="checkout.total">Total</span>
+                                <span>$<span id="checkout-total">0.00</span></span>
+                            </div>
+                        </div>
+
+                        <h3 class="checkout-section-title" style="margin-top: 18px;" data-i18n="checkout.paymentMethod">PAYMENT METHOD</h3>
+                        <div class="checkout-payments" role="radiogroup" aria-label="Payment method">
+                            <label class="checkout-payment">
+                                <input type="radio" name="payment-method" value="chapa" checked />
+                                <span data-i18n="checkout.pay.chapa">Chapa</span>
+                            </label>
+                            <label class="checkout-payment">
+                                <input type="radio" name="payment-method" value="cod" />
+                                <span data-i18n="checkout.pay.cod">CASH ON DELIVERY</span>
+                            </label>
+                        </div>
+
+                        <button class="checkout-place" type="submit" data-i18n="checkout.placeOrder">PLACE ORDER</button>
+                    </aside>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <section class="assistant-section" id="assistant" aria-label="AI assistant">
+        <div class="container">
+            <div class="assistant-card">
+                <h2><i class="fas fa-robot"></i> <span data-i18n="assistant.title">AI Assistant</span></h2>
+                <p class="assistant-hint" data-i18n="assistant.hint">Formal shopping assistant — your questions on the right, answers on the left.</p>
+
+                <div class="assistant-chat" id="assistant-chat" aria-live="polite">
+                    <!-- Initial greeting from AI -->
+                    <div class="assistant-message bot">
+                        <div class="assistant-bubble">
+                            Hello, I am your GHIYON shopping assistant. Ask me about products, availability, sizing, or orders and I will reply here.
+                        </div>
+                    </div>
+                </div>
+
+                <form class="assistant-input-row" id="assistant-form">
+                    <input
+                        id="assistant-input"
+                        class="assistant-input"
+                        type="text"
+                        placeholder="Type your question..."
+                        data-i18n-placeholder="assistant.placeholder"
+                        autocomplete="off"
+                    />
+                    <button class="btn btn-gradient assistant-btn" id="assistant-send" type="submit" data-i18n="assistant.ask">Ask</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-section" id="about" aria-label="About us">
+        <div class="container">
+            <h2 class="section-title" data-i18n="about.title">About Us</h2>
+            <p class="section-subtitle" data-i18n="about.subtitle">Learn more about GHIYON E-commerce</p>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-gem"></i> <span data-i18n="about.who">Who we are</span></h3>
+                    <p data-i18n="about.whoDesc">GHIYON is an online marketplace focused on quality products, fair pricing, and a smooth shopping experience.</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-shipping-fast"></i> <span data-i18n="about.delivery">Delivery</span></h3>
+                    <p data-i18n="about.deliveryDesc">We aim for fast delivery with clear order tracking and reliable packaging.</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-shield-alt"></i> <span data-i18n="about.secure">Secure checkout</span></h3>
+                    <p data-i18n="about.secureDesc">Your payments are handled securely. If something goes wrong, our support team will help you quickly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-section" id="contact-us" aria-label="Contact us">
+        <div class="container">
+            <h2 class="section-title" data-i18n="contact.title">Contact Us</h2>
+            <p class="section-subtitle" data-i18n="contact.subtitle">We usually respond within 24 hours</p>
+
+            <div class="contact-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-phone"></i> <span data-i18n="contact.phone">Phone</span></h3>
+                    <p>+2519897645</p>
+                    <h3 style="margin-top:14px;"><i class="fas fa-envelope"></i> <span data-i18n="contact.email">Email</span></h3>
+                    <p>kelsh@ghiyon.com</p>
+                </div>
+
+                <form class="contact-form" id="contact-form">
+                    <div class="contact-row2">
+                        <input class="contact-input" id="contact-name" type="text" placeholder="Your name" data-i18n-placeholder="contact.yourName" required />
+                        <input class="contact-input" id="contact-email" type="email" placeholder="Your email" data-i18n-placeholder="contact.yourEmail" required />
+                    </div>
+                    <input class="contact-input" id="contact-subject" type="text" placeholder="Subject" data-i18n-placeholder="contact.subject" required />
+                    <textarea class="contact-input" id="contact-message" rows="5" placeholder="Message" data-i18n-placeholder="contact.message" required></textarea>
+                    <button class="btn btn-gradient" type="submit" data-i18n="contact.send">Send Message</button>
+                    <div class="contact-hint" id="contact-hint" aria-live="polite"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 data-i18n="footer.brand">GHIYON E-commerce</h3>
+                    <p data-i18n="footer.desc">Premium online shopping experience with quality products, exclusive deals, and exceptional customer service.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 data-i18n="footer.quickLinks">Quick Links</h3>
+                    <ul>
+                        <li><a href="#" data-i18n="footer.home">Home</a></li>
+                        <li><a href="#dashboard" data-i18n="footer.dashboard">Dashboard</a></li>
+                        <li><a href="#products" data-i18n="footer.products">Products</a></li>
+                        <li><a href="#categories" data-i18n="footer.categories">Categories</a></li>
+                        <li><a href="#services" data-i18n="footer.services">Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 data-i18n="footer.customerService">Customer Service</h3>
+                    <ul>
+                        <li><a href="#" data-i18n="footer.contact">Contact Us</a></li>
+                        <li><a href="#" data-i18n="footer.faq">FAQ</a></li>
+                        <li><a href="#" data-i18n="footer.shipping">Shipping Policy</a></li>
+                        <li><a href="#" data-i18n="footer.returns">Return Policy</a></li>
+                        <li><a href="#" data-i18n="footer.privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 data-i18n="footer.newsletter">Newsletter</h3>
+                    <p data-i18n="footer.newsletterDesc">Subscribe to get exclusive offers and updates</p>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Your email address" data-i18n-placeholder="footer.emailPlaceholder">
+                        <button class="btn" style="width: 100%; margin-top: 10px;" data-i18n="footer.subscribe">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-i18n="footer.copy">&copy; 2023 GHIYON E-commerce. All rights reserved. | Premium Shopping Experience</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="payment-modal" id="payment-modal" style="display:none;" aria-hidden="true">
+        <div class="payment-content" role="dialog" aria-modal="true" aria-label="Payment receipt">
+            <div class="payment-header">
+                <h2 data-i18n="payment.receipt">RECEIPT</h2>
+            </div>
+            <div class="payment-body">
+                <div class="payment-row"><span data-i18n="payment.reference">Reference</span><strong id="payment-ref">-</strong></div>
+                <div class="payment-row"><span data-i18n="payment.status">Status</span><strong id="payment-status">Paid</strong></div>
+                <div class="payment-note" data-i18n="payment.redirect">Redirecting to store in 5 seconds…</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="web.js"></script>
+</body>
+</html>

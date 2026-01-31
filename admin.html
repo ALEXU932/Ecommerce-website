@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar" aria-label="Admin navigation">
+      <div class="admin-sidebar__brand">
+        <div class="admin-sidebar__title">Admin Panel</div>
+      </div>
+
+      <nav class="admin-nav">
+        <a class="admin-nav__item" href="#" data-nav="products">
+          <i class="fa-solid fa-box" aria-hidden="true"></i>
+          <span>Products</span>
+        </a>
+        <a class="admin-nav__item" href="#" data-nav="productlist">
+          <i class="fa-solid fa-list" aria-hidden="true"></i>
+          <span>Product List</span>
+        </a>
+        <a class="admin-nav__item" href="#" data-nav="customers">
+          <i class="fa-solid fa-user" aria-hidden="true"></i>
+          <span>Customers</span>
+        </a>
+        <a class="admin-nav__item" href="#" data-nav="orders">
+          <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+          <span>Orders</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <h1 class="admin-header__title">Dashboard Overview</h1>
+      </header>
+
+      <section class="admin-content" aria-label="Admin content">
+        <div class="admin-view" id="view-dashboard" data-view>
+          <div class="admin-grid">
+            <article class="admin-card admin-card--wide">
+              <div class="admin-metric">
+                <div class="admin-metric__label">Total Sales</div>
+                <div class="admin-metric__value">$12,540</div>
+              </div>
+              <div class="admin-metric">
+                <div class="admin-metric__label">Total Orders</div>
+                <div class="admin-metric__value">430</div>
+              </div>
+            </article>
+
+            <article class="admin-card">
+              <div class="admin-metric">
+                <div class="admin-metric__label">Total Products</div>
+                <div class="admin-metric__value" id="metric-total-products">120</div>
+              </div>
+            </article>
+
+            <article class="admin-card">
+              <div class="admin-metric">
+                <div class="admin-metric__label">Total Customers</div>
+                <div class="admin-metric__value" id="metric-total-customers">10</div>
+              </div>
+            </article>
+
+            
+          </div>
+        </div>
+
+        <div class="admin-view" id="view-products" data-view hidden>
+          <div class="admin-grid admin-grid--single">
+            <article class="admin-card" id="product-form-card">
+              <div class="admin-card__title" id="product-form-title">Add Product</div>
+
+              <form class="admin-form" id="product-form">
+                <input type="hidden" id="product-edit-id" value="" />
+
+              
+
+                <label class="admin-field">
+                  <span class="admin-field__label">Product title</span>
+                  <input class="admin-input" id="product-name" type="text" placeholder="Enter product name" required />
+                </label>
+
+                <div class="admin-row2">
+                  <label class="admin-field">
+                    <span class="admin-field__label">Price</span>
+                    <input class="admin-input" id="product-price" type="number" min="0" step="0.01" placeholder="Regular price" required />
+                  </label>
+
+                  <label class="admin-field">
+                    <span class="admin-field__label">Offer price</span>
+                    <input class="admin-input" id="product-offer-price" type="number" min="0" step="0.01" placeholder="Discounted price (optional)" />
+                  </label>
+                </div>
+
+                <label class="admin-field">
+                  <span class="admin-field__label">Product Category</span>
+                  <select class="admin-input" id="product-category" required>
+                    <option value="" selected disabled>Select category</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="home">Home &amp; Kitchen</option>
+                    <option value="sports">Sports</option>
+                  </select>
+                </label>
+
+                <div class="admin-row2">
+                  <label class="admin-field">
+                    <span class="admin-field__label">Rating (0 - 5)</span>
+                    <input class="admin-input" id="product-rating" type="number" min="0" max="5" step="0.1" placeholder="e.g. 4.5" value="0" required />
+                  </label>
+
+                  <label class="admin-field">
+                    <span class="admin-field__label">Discount % (0 - 100)</span>
+                    <input class="admin-input" id="product-discount" type="number" min="0" max="100" step="1" placeholder="e.g. 20" value="0" required />
+                  </label>
+                </div>
+
+                <div class="admin-upload" id="product-upload" role="button" tabindex="0" aria-label="Upload product image">
+                  <input id="product-image-file" type="file" accept="image/*" hidden />
+                  <input id="product-image" type="hidden" value="" />
+                  <div class="admin-upload__inner" id="product-upload-inner">
+                    <div class="admin-upload__icon" aria-hidden="true">
+                      <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <div class="admin-upload__label">Upload</div>
+                    <div class="admin-upload__hint">Click to upload product image</div>
+                  </div>
+                  <img class="admin-upload__preview" id="product-image-preview" alt="Product image preview" hidden />
+                </div>
+
+                <label class="admin-field">
+                  <span class="admin-field__label">Image path (saved to DB)</span>
+                  <input class="admin-input" id="product-image-path" type="text" placeholder="/uploads/..." readonly />
+                </label>
+
+                <div class="admin-form__actions">
+                  <button class="admin-btn admin-btn--cta" type="submit" id="product-submit">ADD PRODUCT</button>
+                  <button class="admin-btn" type="button" id="product-cancel" hidden>Cancel</button>
+                </div>
+
+                <div class="admin-form__hint" id="product-form-hint" aria-live="polite"></div>
+              </form>
+            </article>
+
+            <article class="admin-card admin-card--table" id="product-list-card">
+              <div class="admin-card__title">Product List</div>
+
+              <div class="admin-tableWrap" role="region" aria-label="Product list" tabindex="0">
+                <table class="admin-table" id="products-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Image</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Category</th>
+                      <th scope="col" class="is-right">Price</th>
+                      <th scope="col" class="is-right">Rating</th>
+                      <th scope="col" class="is-right">Discount</th>
+                      <th scope="col">Updated</th>
+                      <th scope="col" class="is-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="products-tbody"></tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="admin-view" id="view-orders" data-view hidden>
+          <div class="admin-grid admin-grid--single">
+            <article class="admin-card admin-card--table">
+              <div class="admin-card__title">Orders</div>
+
+              <div class="admin-tableWrap" role="region" aria-label="Orders list" tabindex="0">
+                <table class="admin-table" id="orders-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Order ID</th>
+                      <th scope="col">Image</th>
+                      <th scope="col">Customer</th>
+                      <th scope="col">Created</th>
+                      <th scope="col" class="is-right">Total</th>
+                      <th scope="col">Status</th>
+                      <th scope="col" class="is-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="orders-tbody"></tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="admin-view" id="view-customers" data-view hidden>
+          <div class="admin-grid admin-grid--single">
+            <article class="admin-card admin-card--table">
+              <div class="admin-card__title">Customers</div>
+
+              <div class="admin-tableWrap" role="region" aria-label="Customers list" tabindex="0">
+                <table class="admin-table" id="customers-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Joined</th>
+                    </tr>
+                  </thead>
+                  <tbody id="customers-tbody"></tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="admin-view" id="view-placeholder" data-view hidden>
+          <div class="admin-grid admin-grid--single">
+            <article class="admin-card">
+              <div class="admin-card__title">Section</div>
+              <div class="admin-placeholder" id="placeholder-text">This section is not available yet.</div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
